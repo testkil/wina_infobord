@@ -4,6 +4,7 @@ import HeaderComponent from "./header";
 import NextCursusKotDatesComponent from "./nextcursuskotdates";
 import SlidesComponent from "./slides";
 import UpcomingEventsComponent from "./upcomingevents";
+import ConnectionIcon from "./connectionStation";
 
 const PageContainer = styled.div`
   background: linear-gradient(to left, black, #262626);
@@ -56,6 +57,7 @@ const Page = () => {
         <SlidesComponent />
         <UpcomingEventsComponent />
       </RightColumn>
+      <ConnectionIcon />
     </PageContainer>
   );
 };

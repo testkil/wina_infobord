@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import useData from "../Contexts/DataContext";
+import { SLIDE_INTERVAL_SECONDS } from "../config";
 
 const EventBoard = styled.div`
   width: 100%;
@@ -39,7 +40,7 @@ function SlidesComponent() {
           );
           setIsImageVisible(true);
         }, 500);
-      }, 20000); // change slide every 20 seconds
+      }, SLIDE_INTERVAL_SECONDS * 1000);
 
       return () => clearInterval(intervalId);
     }

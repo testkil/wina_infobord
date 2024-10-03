@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import { DATA_ENDPOINT } from "../config";
+import { DATA_ENDPOINT, DATA_REFRESH_INTERVAL_MINUTES } from "../config";
 
 const preloadImage = (url) => {
   const img = new Image();
@@ -15,12 +14,14 @@ const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isOfflineMode, setIsOfflineMode] = useState(true);
 
   const refreshData = async () => {
     console.log("Refreshing data", new Date());
     setLoading(true);
     fetch(DATA_ENDPOINT)
       .then((response) => {
+        setIsOfflineMode(false);
         if (!response.ok) {
           console.error("Response not ok", response);
         }
@@ -36,6 +37,7 @@ export const DataProvider = ({ children }) => {
       })
       .catch((error) => {
         console.error("Failed to fetch data", error);
+        setIsOfflineMode(true);
         setLoading(false);
       });
   };
@@ -52,14 +54,17 @@ export const DataProvider = ({ children }) => {
     }
     refreshData();
     // Interval to re-fetch data every 5 minutes
-    const interval = setInterval(refreshData, 300000);
+    const interval = setInterval(
+      refreshData,
+      DATA_REFRESH_INTERVAL_MINUTES * 60 * 1000
+    );
 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <DataContext.Provider
-      value={{ data, loading, refreshData, setCursusKotState }}
+      value={{ data, loading, isOfflineMode, refreshData, setCursusKotState }}
     >
       {children}
     </DataContext.Provider>

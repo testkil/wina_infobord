@@ -44,7 +44,7 @@ const ProgressBarContainer = styled.div`
 
 const ProgressBar = styled.div`
   height: 100%;
-  background-color: #d1b713c0;
+  background-color: #ffffffc0;
   width: ${({ $progress }) => $progress}%;
   transition: width 0.1s linear;
 `;

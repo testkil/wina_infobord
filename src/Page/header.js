@@ -36,7 +36,7 @@ const HeaderText = styled.span`
 `;
 
 const HeaderComponent = () => {
-  const { data, refreshData } = useData();
+  const { data } = useData();
   const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState(new Date());
 
@@ -45,9 +45,6 @@ const HeaderComponent = () => {
       const nextPermanentie = data?.permanenties[0] || {};
       const nextDateStart = new Date(nextPermanentie.start);
       const nextDateEnd = new Date(nextPermanentie.end);
-
-      console.log("Next date start", nextDateStart);
-      console.log(date);
 
       if (date >= nextDateStart && date <= nextDateEnd) {
         setIsOpen(true);

@@ -12,7 +12,7 @@ const EventBoard = styled.div`
 `;
 
 const fadeTransition = css`
-  transition: opacity 0.5s ease;
+  transition: opacity 0.2s ease;
 `;
 
 const SlideContainer = styled.div`
@@ -55,7 +55,6 @@ function SlidesComponent() {
 
   useEffect(() => {
     if (slidesExist) {
-      // Set interval for slide transition
       const startSlideTransition = () => {
         setIsImageVisible(false);
         transitionTimeout.current = setTimeout(() => {
@@ -63,12 +62,12 @@ function SlidesComponent() {
             prevIndex + 1 === data.slides.length ? 0 : prevIndex + 1
           );
           setIsImageVisible(true);
-        }, 500); // 500ms transition delay before showing the next slide
+        }, 200);
       };
 
       const interval = setInterval(() => {
         startSlideTransition();
-      }, SLIDE_INTERVAL_SECONDS * 1000); // Auto transition based on SLIDE_INTERVAL_SECONDS
+      }, SLIDE_INTERVAL_SECONDS * 1000);
 
       return () => {
         clearInterval(interval);

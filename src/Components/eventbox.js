@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { format, parseISO } from "date-fns";
-import { nl } from "date-fns/locale"; // Import Dutch locale
+import { nl } from "date-fns/locale";
 
 const EventBox = styled.div`
   background: #262626;

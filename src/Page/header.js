@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { format } from "date-fns";
+import { nl } from "date-fns/locale";
 import WinaLogo from "../Assets/wina_schild_groot.gif";
 import CursusKotStateComponent from "../Components/cursuskotstate";
 import useData from "../Contexts/DataContext";
-import { formatDate, formatTime } from "../Util/date";
 
 const Header = styled.div`
   align-items: center;
@@ -70,11 +71,12 @@ const HeaderComponent = () => {
   return (
     <Header>
       <Image src={WinaLogo} alt="Wina Logo" />
-      <DateText>{formatDate(date)}</DateText>
-      <TimeText>{formatTime(date)}</TimeText>
+      <DateText>{format(date, "EEEE PPP", { locale: nl })}</DateText>
+      <TimeText>{format(date, "HH:mm", { locale: nl })}</TimeText>
       <HeaderText>CURSUSKOT</HeaderText>
       <CursusKotStateComponent isOpen={isOpen} />
     </Header>
   );
 };
+
 export default HeaderComponent;

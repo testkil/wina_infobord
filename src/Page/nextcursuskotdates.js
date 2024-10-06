@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { format } from "date-fns";
+import { nl } from "date-fns/locale";
 import useData from "../Contexts/DataContext";
-import { formatDate } from "../Util/date";
 
 const NextDatesContainer = styled.div`
   align-items: center;
@@ -44,10 +45,10 @@ const DateText = ({ permanentie }) => {
 
   return (
     <DateAndTimeContainer>
-      <ContentText>{formatDate(startDate, true)}</ContentText>
+      <ContentText>{format(startDate, "PPP", { locale: nl })}</ContentText>
       <ContentText>
-        {startDate.toTimeString().substring(0, 5)} -{" "}
-        {endDate.toTimeString().substring(0, 5)}
+        {format(startDate, "HH:mm", { locale: nl })} -{" "}
+        {format(endDate, "HH:mm", { locale: nl })}
       </ContentText>
     </DateAndTimeContainer>
   );
@@ -58,7 +59,7 @@ const NextCursusKotDatesComponent = () => {
   const permanenties = data?.permanenties;
 
   if (!permanenties) {
-    return;
+    return null;
   }
 
   return (

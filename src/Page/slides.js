@@ -50,6 +50,7 @@ function SlidesComponent() {
   const { data } = useData();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isImageVisible, setIsImageVisible] = useState(true);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const transitionTimeout = useRef(null);
   const slidesExist = data && Array.isArray(data.slides);
 
@@ -61,7 +62,7 @@ function SlidesComponent() {
           setCurrentSlideIndex((prevIndex) =>
             prevIndex + 1 === data.slides.length ? 0 : prevIndex + 1
           );
-          setIsImageVisible(true);
+          setIsImageLoaded(false);
         }, 200);
       };
 
@@ -76,6 +77,11 @@ function SlidesComponent() {
     }
   }, [slidesExist, data.slides?.length]);
 
+  const handleImageLoad = () => {
+    setIsImageLoaded(true);
+    setIsImageVisible(true);
+  };
+
   const handleImageError = () => {
     setIsImageVisible(false);
   };
@@ -87,8 +93,9 @@ function SlidesComponent() {
     <EventBoard>
       <SlideContainer>
         <SlideImage
-          $isVisible={isImageVisible}
+          $isVisible={isImageVisible && isImageLoaded}
           src={data.slides[currentSlideIndex].file}
+          onLoad={handleImageLoad}
           onError={handleImageError}
           alt=""
         />

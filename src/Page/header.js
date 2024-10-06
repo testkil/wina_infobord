@@ -56,7 +56,7 @@ const HeaderComponent = () => {
     if (Object.keys(data).length > 0) {
       isCursusKotOpen();
     }
-  }, [date]);
+  }, [date, data]);
 
   useEffect(() => {
     const timer = setInterval(() => {

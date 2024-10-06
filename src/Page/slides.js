@@ -5,9 +5,10 @@ import { SLIDE_INTERVAL_SECONDS } from "../config";
 
 const EventBoard = styled.div`
   width: 100%;
-  height: 75%;
-  align-self: flex-end;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
   position: relative;
+  align-self: flex-end;
 `;
 
 const fadeTransition = css`
@@ -15,7 +16,9 @@ const fadeTransition = css`
 `;
 
 const SlideContainer = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border-radius: 0 0 0 20px;

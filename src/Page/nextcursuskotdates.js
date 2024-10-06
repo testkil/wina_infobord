@@ -7,6 +7,8 @@ const NextDatesContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 4rem;
+  width: 100%;
+  max-width: 420px;
 `;
 
 const Title = styled.span`
@@ -31,12 +33,21 @@ const DateAndTimeContainer = styled.div`
   width: 100%;
 `;
 
-const DateText = ({ date }) => {
+const DateText = ({ permanentie }) => {
+  const startDate = new Date(permanentie.start);
+  const endDate = new Date(permanentie.end);
+
+  // if date end has already passed, don't show it
+  if (endDate < new Date()) {
+    return null;
+  }
+
   return (
     <DateAndTimeContainer>
-      <ContentText>{formatDate(new Date(date.day), true)}</ContentText>
+      <ContentText>{formatDate(startDate, true)}</ContentText>
       <ContentText>
-        {date.start.substring(0, 5)} - {date.end.substring(0, 5)}
+        {startDate.toTimeString().substring(0, 5)} -{" "}
+        {endDate.toTimeString().substring(0, 5)}
       </ContentText>
     </DateAndTimeContainer>
   );
@@ -44,18 +55,18 @@ const DateText = ({ date }) => {
 
 const NextCursusKotDatesComponent = () => {
   const { data } = useData();
-  const next_dates = data?.future_permanenties;
+  const permanenties = data?.permanenties;
 
-  if (!next_dates) {
+  if (!permanenties) {
     return;
   }
 
   return (
     <NextDatesContainer>
-      <Title>VOLGENDE PERMANENTIES</Title>
+      <Title>PERMANENTIES</Title>
       <PaddedBox>
-        {next_dates.map((date, index) => {
-          return <DateText key={index} date={date} />;
+        {permanenties.map((permanentie, index) => {
+          return <DateText key={index} permanentie={permanentie} />;
         })}
       </PaddedBox>
     </NextDatesContainer>

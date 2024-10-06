@@ -36,31 +36,23 @@ const HeaderText = styled.span`
 `;
 
 const HeaderComponent = () => {
-  const { data, refreshData, setCursusKotState } = useData();
+  const { data, refreshData } = useData();
+  const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState(new Date());
-  const isOpen = data?.cursuskot_open;
 
   useEffect(() => {
     const isCursusKotOpen = () => {
-      const { day, start, end } = data?.future_permanenties[0] || {};
-      const nextDateStart = new Date(`${day} ${start}`);
-      const nextDateEnd = new Date(`${day} ${end}`);
-      const closingTime = data?.cursuskot_closing_time?.split(":").map(Number);
-      const closingDate = new Date(date);
+      const nextPermanentie = data?.permanenties[0] || {};
+      const nextDateStart = new Date(nextPermanentie.start);
+      const nextDateEnd = new Date(nextPermanentie.end);
 
-      if (closingTime) {
-        closingDate.setHours(...closingTime, 0);
-      }
+      console.log("Next date start", nextDateStart);
+      console.log(date);
 
-      if (
-        (date >= nextDateStart && date <= nextDateEnd) ||
-        date > closingDate
-      ) {
-        // in case connection is lost
-        if (date > closingDate || date > nextDateEnd) setCursusKotState(false);
-        else setCursusKotState(true);
-
-        refreshData();
+      if (date >= nextDateStart && date <= nextDateEnd) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
       }
     };
 

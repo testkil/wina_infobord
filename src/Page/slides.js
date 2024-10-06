@@ -49,6 +49,17 @@ const ProgressBar = styled.div`
   transition: width 0.1s linear;
 `;
 
+const SlideCounter = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+`;
+
 function SlidesComponent() {
   const { data } = useData();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -140,6 +151,9 @@ function SlidesComponent() {
         <ProgressBarContainer>
           <ProgressBar $progress={progress} />
         </ProgressBarContainer>
+        <SlideCounter>
+          {currentSlideIndex + 1} / {data.slides.length}
+        </SlideCounter>
       </SlideContainer>
     </EventBoard>
   );

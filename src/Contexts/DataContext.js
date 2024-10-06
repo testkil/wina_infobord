@@ -19,31 +19,31 @@ export const DataProvider = ({ children }) => {
   const refreshData = async () => {
     console.log("Refreshing data", new Date());
     setLoading(true);
-    fetch(DATA_ENDPOINT)
-      .then((response) => {
-        setIsOfflineMode(false);
-        if (!response.ok) {
-          console.error("Response not ok", response);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Cache images
-        data.slides.forEach((slide) => preloadImage(slide.file));
 
-        setData(data);
+    try {
+      const response = await fetch(DATA_ENDPOINT);
+      setIsOfflineMode(false);
+
+      if (!response.ok) {
+        console.error("Response not ok", response);
         setLoading(false);
-        localStorage.setItem("data", JSON.stringify(data));
-      })
-      .catch((error) => {
-        console.error("Failed to fetch data", error);
-        setIsOfflineMode(true);
-        setLoading(false);
-      });
+        return;
+      }
+
+      const data = await response.json();
+
+      // Cache images
+      data.slides.forEach((slide) => preloadImage(slide.file));
+
+      setData(data);
+      localStorage.setItem("data", JSON.stringify(data));
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+      setIsOfflineMode(true);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const setCursusKotState = (state) =>
-    setData({ ...data, cursuskot_open: state });
 
   console.log(data);
   useEffect(() => {
@@ -63,9 +63,7 @@ export const DataProvider = ({ children }) => {
   }, []);
 
   return (
-    <DataContext.Provider
-      value={{ data, loading, isOfflineMode, refreshData, setCursusKotState }}
-    >
+    <DataContext.Provider value={{ data, loading, isOfflineMode, refreshData }}>
       {children}
     </DataContext.Provider>
   );
